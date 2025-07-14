@@ -133,6 +133,60 @@ public class LocationController {
         return proxyRequest(endpoint);
     }
     
+    @GetMapping("/global/pathoflegend/{seasonId}/rankings/players")
+    public Mono<ResponseEntity<String>> getGlobalRankingPathOfLegendsBySeason(@PathVariable String seasonId,
+            @RequestParam(required = false) String limit,
+            @RequestParam(required = false) String after,
+            @RequestParam(required = false) String before) {
+        StringBuilder endpointBuilder = new StringBuilder("/locations/global/pathoflegend/" + seasonId + "/rankings/players");
+        boolean hasParam = false;
+
+        if (limit != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("limit=").append(limit);
+            hasParam = true;
+        }
+        if (after != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("after=").append(after);
+            hasParam = true;
+        }
+        if (before != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("before=").append(before);
+        }
+
+        String endpoint = endpointBuilder.toString(); 
+        return proxyRequest(endpoint);
+    }
+
+    @GetMapping("/global/seasons/{seasonId}")
+    public Mono<ResponseEntity<String>> getSeasonById(@PathVariable String seasonId) {
+        String endpoint = "/locations/global/seasons/" + seasonId;
+        return proxyRequest(endpoint);
+    }
+
+    @GetMapping("/global/seasons/{seasonId}/rankings/players")
+    public Mono<ResponseEntity<String>> getSeasonRankingPathOfLegendsBySeason(@PathVariable String seasonId,
+            @RequestParam(required = false) String limit,
+            @RequestParam(required = false) String after,
+            @RequestParam(required = false) String before) {
+        StringBuilder endpointBuilder = new StringBuilder("/locations/global/seasons/" + seasonId + "/rankings/players");
+        boolean hasParam = false;
+
+        if (limit != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("limit=").append(limit);
+            hasParam = true;
+        }
+        if (after != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("after=").append(after);
+            hasParam = true;
+        }
+        if (before != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("before=").append(before);
+        }
+
+        String endpoint = endpointBuilder.toString();
+        return proxyRequest(endpoint);
+    }
+    
     @GetMapping("/global/seasons")
     public Mono<ResponseEntity<String>> getSeasons() {
         String endpoint = "/locations/global/seasons";
