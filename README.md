@@ -43,12 +43,9 @@ cd api-java-clash-backend
 
 2. Crea el archivo o modifica el archivo src/main/resources/application.propierties o define las variables de entorno necesarias:
 
+Para ello copia el archivo application-example.properties a application.properties y completa tu API Key:
 ```bash
-spring.application.name=api-java-backend
-server.port=3000
-
-clash.api.key=mi_key
-clash.api.url=https://proxy.royaleapi.dev/v1
+cp src/main/resources/application-example.properties src/main/resources/application.properties
 ```
 
 3. Compila y ejecuta la aplicación:
