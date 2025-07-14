@@ -28,7 +28,7 @@ Este backend actúa como **API intermedia** entre una aplicación Flutter o cual
 
 ## 🛠️ Requisitos
 
-- Node.js ≥ 14
+- Java ≥ 17
 - Clave de acceso válida de RoyaleAPI (o token alternativo si cambias de proveedor)
 - Cuenta de Render, Railway u otra plataforma de despliegue opcional
 
@@ -38,36 +38,34 @@ Este backend actúa como **API intermedia** entre una aplicación Flutter o cual
 
 ```bash
 git clone https://github.com/TuUsuario/api-clash-backend.git
-cd api-clash-backend
+cd api-java-clash-backend
 ```
 
-2. Instala las dependencias:
+2. Crea el archivo o modifica el archivo src/main/resources/application.propierties o define las variables de entorno necesarias:
 
+Para ello copia el archivo application-example.properties a application.properties y completa tu API Key:
 ```bash
-npm install
+cp src/main/resources/application-example.properties src/main/resources/application.properties
 ```
 
-3. Crea un archivo `.env`:
+3. Compila y ejecuta la aplicación:
 
 ```env
-CLASH_API_KEY=tu_token_de_royaleapi
-PORT=3000
+./mvnw spring-boot:run
 ```
 
-4. Inicia el servidor:
+4. Tu API estará disponible en:
 
 ```bash
-node server.js
+http://localhost:3000/api
 ```
-
-Tu API estará corriendo en `http://localhost:3000/api`.
 
 ## 🔐 Seguridad
 
-**¡IMPORTANTE!** Nunca subas tu archivo `.env` ni tu `CLASH_API_KEY` a GitHub ni a ningún repositorio público. Agrega esto a tu `.gitignore`:
+**¡IMPORTANTE!** Nunca subas tu archivo `application.propierties` ni tu `clash.api.key` a GitHub ni a ningún repositorio público. Agrega esto a tu `.gitignore`:
 
 ```
-.env
+src/main/resources/application.properties
 ```
 ## 🎯 Ventajas del enfoque
 - 🔒 Seguridad: no expones tokens desde el cliente móvil.
