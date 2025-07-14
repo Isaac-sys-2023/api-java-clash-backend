@@ -133,6 +133,18 @@ public class LocationController {
         return proxyRequest(endpoint);
     }
     
+    @GetMapping("/global/seasons")
+    public Mono<ResponseEntity<String>> getSeasons() {
+        String endpoint = "/locations/global/seasons";
+        return proxyRequest(endpoint);
+    }
+
+    @GetMapping("/global/seasonsV2")
+    public Mono<ResponseEntity<String>> getSeasonsV2() {
+        String endpoint = "/locations/global/seasonsV2";
+        return proxyRequest(endpoint);
+    }
+    
     @GetMapping("/{locationId}/pathoflegend/players")
     public Mono<ResponseEntity<String>> getRankingPathOfLegendsByLocation(@PathVariable String locationId,
             @RequestParam(required = false) String limit,
