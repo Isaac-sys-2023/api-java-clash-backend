@@ -11,10 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @RestController
 @RequestMapping("/api/locations")
 @RequiredArgsConstructor
 public class LocationController {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private final ClashApiService clashApiService;
 
@@ -47,5 +55,23 @@ public class LocationController {
                 .body("{\"error\": \"Error fetching locations: " + e.getMessage().replace("\"", "'") + "\"}")));
     }
 
-    
+    @GetMapping("/{locationId}")
+    public Mono<ResponseEntity<String>> getLocationById(@PathVariable String locationId) {
+        String endpoint = "/locations/" + locationId;
+        return proxyRequest(endpoint);
+    }
+
+    // Método para centralizar la obtención de datos y el manejo de errores
+    private Mono<ResponseEntity<String>> proxyRequest(String endpoint) {
+        return clashApiService.getData(endpoint)
+                .map(ResponseEntity::ok)
+                .onErrorResume(e -> {
+                    try {
+                        String errorJson = objectMapper.writeValueAsString(Map.of("error", e.getMessage()));
+                        return Mono.just(ResponseEntity.internalServerError().body(errorJson));
+                    } catch (Exception ex) {
+                        return Mono.just(ResponseEntity.internalServerError().body("{\"error\": \"Unexpected error\"}"));
+                    }
+                });
+    }
 }
