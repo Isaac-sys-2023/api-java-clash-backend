@@ -156,6 +156,30 @@ public class LocationController {
         String endpoint = endpointBuilder.toString();
         return proxyRequest(endpoint);
     }
+    
+    @GetMapping("/global/rankings/tournaments/{tournamentsTag}")
+    public Mono<ResponseEntity<String>> getRankingGlobalTournamentsByTag(@PathVariable String tournamentsTag,
+            @RequestParam(required = false) String limit,
+            @RequestParam(required = false) String after,
+            @RequestParam(required = false) String before) {
+        StringBuilder endpointBuilder = new StringBuilder("/locations/global/rankings/tournaments/" + tournamentsTag);
+        boolean hasParam = false;
+
+        if (limit != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("limit=").append(limit);
+            hasParam = true;
+        }
+        if (after != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("after=").append(after);
+            hasParam = true;
+        }
+        if (before != null) {
+            endpointBuilder.append(hasParam ? "&" : "?").append("before=").append(before);
+        }
+
+        String endpoint = endpointBuilder.toString();
+        return proxyRequest(endpoint);
+    }
 
     // Método para centralizar la obtención de datos y el manejo de errores
     private Mono<ResponseEntity<String>> proxyRequest(String endpoint) {
