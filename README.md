@@ -68,7 +68,7 @@ http://localhost:3000/api
 **¡IMPORTANTE!** Nunca subas tu archivo `application.propierties` ni tu `clash.api.key` a GitHub ni a ningún repositorio público. Agrega esto a tu `.gitignore`:
 
 ```
-application.propierties
+src/main/resources/application.properties
 ```
 ## 🎯 Ventajas del enfoque
 - 🔒 Seguridad: no expones tokens desde el cliente móvil.
