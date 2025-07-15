@@ -46,6 +46,7 @@ public class EvolutionData {
         evolutionCycles.put(26000045, 1);  // Executioner - ciclo 1
         evolutionCycles.put(26000007, 1);  // Witch - ciclo 1
         evolutionCycles.put(26000037, 2);  // Inferno Dragon - ciclo 2
+        evolutionCycles.put(26000056, 2);  // SkeletonBarrel - ciclo 2
     }
 
     public static Integer getEvolutionCycle(int cardId) {
