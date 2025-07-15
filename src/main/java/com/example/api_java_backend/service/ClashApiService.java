@@ -60,26 +60,18 @@ public class ClashApiService {
         try {
             JsonNode root = objectMapper.readTree(json);
             JsonNode items = root.get("items");
-            
-            EvolutionData evo = new EvolutionData();
 
             if (items != null && items.isArray()) {
                 for (JsonNode item : items) {
-                    boolean isEvo = item.path("maxEvolutionLevel").asBoolean(false);
-                    int id = -1;
-                    String idCard = item.path("id").asText(null);
-
-                    if (idCard != null) {
-                        try {
-                            id = Integer.parseInt(idCard);
-                        } catch (NumberFormatException e) {
-                            continue;
-                        }
-                    }
+                    boolean isEvo = item.has("maxEvolutionLevel") && item.path("maxEvolutionLevel").asInt(0) > 0;;
+                    int id = item.path("id").asInt(-1);
 
                     if (isEvo && id != -1) {
-                        int evolutionCycle = evo.getEvolutionCycle(id);
-                        ((ObjectNode) item).put("evolutionCycle", evolutionCycle);
+                        Integer evolutionCycle = EvolutionData.getEvolutionCycle(id);
+                        System.out.println("ID: " + id + ", EvolutionCycle: " + evolutionCycle);
+                        if (evolutionCycle != null) {
+                            ((ObjectNode) item).put("evolutionCycle", evolutionCycle);
+                        }
                     }
                 }
             }
