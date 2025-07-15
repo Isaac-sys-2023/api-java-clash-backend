@@ -4,7 +4,7 @@ package com.example.api_java_backend.service;
  *
  * @author chichimon
  */
-
+import com.example.api_java_backend.util.EvolutionData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,8 +17,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @Service
 @RequiredArgsConstructor
 public class ClashApiService {
+
     private final ObjectMapper objectMapper = new ObjectMapper();
-    
+
     private final WebClient clashApiClient;
 
     public Mono<String> getData(String endpoint) {
@@ -27,7 +28,7 @@ public class ClashApiService {
                 .retrieve()
                 .bodyToMono(String.class);
     }
-    
+
     public String addFlagsToLocations(String json) {
         try {
             JsonNode root = objectMapper.readTree(json);
@@ -52,6 +53,41 @@ public class ClashApiService {
         } catch (Exception e) {
             e.printStackTrace();
             return json; // Si algo falla, retorna el JSON original sin modificar
+        }
+    }
+
+    public String addEvoCiclesToCards(String json) {
+        try {
+            JsonNode root = objectMapper.readTree(json);
+            JsonNode items = root.get("items");
+            
+            EvolutionData evo = new EvolutionData();
+
+            if (items != null && items.isArray()) {
+                for (JsonNode item : items) {
+                    boolean isEvo = item.path("maxEvolutionLevel").asBoolean(false);
+                    int id = -1;
+                    String idCard = item.path("id").asText(null);
+
+                    if (idCard != null) {
+                        try {
+                            id = Integer.parseInt(idCard);
+                        } catch (NumberFormatException e) {
+                            continue;
+                        }
+                    }
+
+                    if (isEvo && id != -1) {
+                        int evolutionCycle = evo.getEvolutionCycle(id);
+                        ((ObjectNode) item).put("evolutionCycle", evolutionCycle);
+                    }
+                }
+            }
+
+            return objectMapper.writeValueAsString(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return json;
         }
     }
 }
