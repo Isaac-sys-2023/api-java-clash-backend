@@ -13,17 +13,20 @@ import reactor.core.publisher.Mono;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.net.URI;
 
 @Service
 @RequiredArgsConstructor
 public class ClashApiService {
+    private final String apiUrl; 
+    
     private final ObjectMapper objectMapper = new ObjectMapper();
     
     private final WebClient clashApiClient;
 
     public Mono<String> getData(String endpoint) {
         return clashApiClient.get()
-                .uri(endpoint)
+                .uri(URI.create(apiUrl + endpoint))
                 .retrieve()
                 .bodyToMono(String.class);
     }

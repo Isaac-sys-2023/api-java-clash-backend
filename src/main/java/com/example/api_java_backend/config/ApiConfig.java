@@ -25,4 +25,9 @@ public class ApiConfig {
                 .defaultHeader("Authorization", "Bearer " + apiKey)
                 .build();
     }
+    
+    @Bean
+    public String clashApiUrl() {
+        return apiUrl; // Pasar como bean para inyectar en ClashApiService
+    }
 }
