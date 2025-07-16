@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.example.api_java_backend.controller;
 
 import com.example.api_java_backend.service.ClashApiService;
@@ -33,20 +29,6 @@ public class PlayerController {
             @RequestParam(required = false) String before) {
 
         StringBuilder endpointBuilder = new StringBuilder("/players/%23" + playerTag);
-        boolean hasParam = false;
-
-        if (limit != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("limit=").append(limit);
-            hasParam = true;
-        }
-        if (after != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("after=").append(after);
-            hasParam = true;
-        }
-        if (before != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("before=").append(before);
-        }
-
         String endpoint = endpointBuilder.toString();
 
         return clashApiService.getData(endpoint)
@@ -56,26 +38,9 @@ public class PlayerController {
     }
     
     @GetMapping("/{playerTag}/upcomingchests")
-    public Mono<ResponseEntity<String>> getChestsPlayerByTag(@PathVariable String playerTag,
-            @RequestParam(required = false) String limit,
-            @RequestParam(required = false) String after,
-            @RequestParam(required = false) String before) {
+    public Mono<ResponseEntity<String>> getChestsPlayerByTag(@PathVariable String playerTag) {
 
         StringBuilder endpointBuilder = new StringBuilder("/players/%23" + playerTag + "/upcomingchests");
-        boolean hasParam = false;
-
-        if (limit != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("limit=").append(limit);
-            hasParam = true;
-        }
-        if (after != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("after=").append(after);
-            hasParam = true;
-        }
-        if (before != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("before=").append(before);
-        }
-
         String endpoint = endpointBuilder.toString();
 
         return clashApiService.getData(endpoint)
@@ -85,26 +50,9 @@ public class PlayerController {
     }
     
     @GetMapping("/{playerTag}/battlelog")
-    public Mono<ResponseEntity<String>> getBattlesPlayerByTag(@PathVariable String playerTag,
-            @RequestParam(required = false) String limit,
-            @RequestParam(required = false) String after,
-            @RequestParam(required = false) String before) {
+    public Mono<ResponseEntity<String>> getBattlesPlayerByTag(@PathVariable String playerTag) {
 
         StringBuilder endpointBuilder = new StringBuilder("/players/%23" + playerTag + "/battlelog");
-        boolean hasParam = false;
-
-        if (limit != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("limit=").append(limit);
-            hasParam = true;
-        }
-        if (after != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("after=").append(after);
-            hasParam = true;
-        }
-        if (before != null) {
-            endpointBuilder.append(hasParam ? "&" : "?").append("before=").append(before);
-        }
-
         String endpoint = endpointBuilder.toString();
 
         return clashApiService.getData(endpoint)
